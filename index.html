@@ -307,10 +307,47 @@
   .cert-item span{font-size:12.5px; color:var(--muted);}
 
   /* ---------- GALLERY ---------- */
-  .album-cta{text-align:center; margin-top:46px;}
-  .album-cta p{color:var(--muted); font-size:15px; margin-bottom:16px;}
-  .album-cta a{display:inline-block; padding:14px 36px; background:var(--teal-deep); color:var(--gold-soft); border:1px solid var(--gold); border-radius:var(--radius); font-family:'Tajawal',sans-serif; font-weight:700; font-size:16px; text-decoration:none; letter-spacing:.4px; transition:.25s;}
-  .album-cta a:hover{background:var(--gold); color:var(--teal-deep);}
+  /* ===== دفتر اللقاءات ===== */
+  .nb{margin-top:64px;}
+  .nb-title{text-align:center;margin-bottom:22px;}
+  .nb-title h3{font-family:'Playfair Display','Tajawal',serif;font-size:clamp(22px,3vw,30px);font-weight:700;color:var(--teal-deep);}
+  .nb-title p{color:var(--muted);font-size:15px;margin-top:6px;}
+  .nb .ar,.nb .en{display:none;}
+  html[lang=ar] .nb .ar{display:inline;} html[lang=en] .nb .en{display:inline;}
+  .nb-desk{--pw:min(40vw,380px); --ph:calc(var(--pw)*1.28); background:radial-gradient(900px 500px at 50% 20%,var(--teal),var(--teal-deep) 70%); border-radius:6px; padding:34px 10px 22px; display:flex; flex-direction:column; align-items:center; overflow:hidden;}
+  .nb-stage{perspective:2200px; width:100%; display:flex; justify-content:center; padding:10px 0 24px; touch-action:pan-y; outline:none;}
+  .nb-book{position:relative; width:calc(var(--pw)*2); height:var(--ph); direction:ltr; transform-style:preserve-3d; transition:transform .8s cubic-bezier(.4,.1,.2,1);}
+  .nb-leaf{position:absolute; top:0; left:50%; width:var(--pw); height:var(--ph); transform-origin:left center; transform-style:preserve-3d; transition:transform .85s cubic-bezier(.45,.05,.25,1), z-index 0s .42s; cursor:pointer;}
+  .nb-face{position:absolute; inset:0; backface-visibility:hidden; -webkit-backface-visibility:hidden; background:var(--paper); overflow:hidden; box-shadow:0 8px 22px rgba(0,0,0,.35);}
+  .nb-face.front{border-radius:3px 10px 10px 3px; background:linear-gradient(90deg,#e4dcc9 0,var(--paper) 7%);}
+  .nb-face.back{transform:rotateY(180deg); border-radius:10px 3px 3px 10px; background:linear-gradient(270deg,#e4dcc9 0,var(--paper) 7%);}
+  .nb-face.cover{background:linear-gradient(135deg,var(--teal),var(--teal-deep)); border:1px solid rgba(217,178,107,.5);}
+  .nb-page{display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; height:100%; padding:7% 8%; color:var(--ink); text-align:center; direction:rtl;}
+  html[lang=en] .nb-page{direction:ltr;}
+  .nb-page img{max-width:100%; max-height:72%; object-fit:contain; border:6px solid #fff; box-shadow:0 6px 16px rgba(0,0,0,.2); border-radius:2px; background:#ddd;}
+  .nb-cap{font-size:clamp(12px,1.4vw,15px); line-height:1.7; color:#3a464a; min-height:3.4em;}
+  .nb-no{font-size:12px; color:var(--muted); letter-spacing:.1em;}
+  .nb-cover{color:var(--gold-soft);}
+  .nb-cover h4{font-family:'Playfair Display','Tajawal',serif; font-size:clamp(22px,3vw,32px); font-weight:700; line-height:1.5;}
+  .nb-cover p{font-size:clamp(12px,1.4vw,15px); color:#cfd9dc;}
+  .nb-rule{width:56px; height:2px; background:var(--gold);}
+  .nb-ghost{opacity:.6; font-size:13px;}
+  .nb-nav{display:flex; align-items:center; gap:16px;}
+  .nb-nav button{width:44px; height:44px; border-radius:50%; border:1px solid rgba(255,255,255,.4); background:rgba(255,255,255,.08); color:var(--cream); font-size:20px; cursor:pointer; font-family:inherit;}
+  .nb-nav button:hover:not(:disabled){border-color:var(--gold); color:var(--gold);}
+  .nb-nav button:disabled{opacity:.3; cursor:default;}
+  .nb-count{min-width:80px; text-align:center; font-size:14px; color:var(--muted-light);}
+  .nb-scroller{display:none;}
+  .nb-hint{display:none; text-align:center; color:var(--muted-light); font-size:13px; padding-top:6px;}
+  @media (max-width:760px){
+    .nb-stage,.nb-nav{display:none;}
+    .nb-scroller{display:flex; overflow-x:auto; scroll-snap-type:x mandatory; width:100%; -webkit-overflow-scrolling:touch; padding:6px 0 10px;}
+    .nb-sp{flex:0 0 84%; scroll-snap-align:center; margin:0 7%; height:min(74vh,560px);}
+    .nb-sp .nb-face{position:relative; height:100%; border-radius:10px; backface-visibility:visible;}
+    .nb-sp .nb-page img{max-height:66%;}
+    .nb-hint{display:block;}
+  }
+  @media (prefers-reduced-motion:reduce){ .nb-book,.nb-leaf{transition:none;} }
   #gallery{background:var(--cream); border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
   .gal-head{text-align:center; margin-bottom:50px;}
   .gal-head h2{font-size:clamp(30px,4.5vw,46px); font-weight:800;}
@@ -683,9 +720,21 @@
         
       </div>
     </div>
-    <div class="album-cta">
-      <p data-ar="لحظات إضافية من المعارض واللقاءات التعليمية" data-en="More moments from education fairs and visits">لحظات إضافية من المعارض واللقاءات التعليمية</p>
-      <a href="album.html" onclick="this.href='album.html?lang='+currentLang" data-ar="تصفّحي الدفتر ←" data-en="Flip through the notebook →">تصفّحي الدفتر ←</a>
+    <div class="nb" id="notebook">
+      <div class="nb-title">
+        <h3><span class="ar">دفتر اللقاءات</span><span class="en">Notebook of Encounters</span></h3>
+        <p><span class="ar">لحظات من المعارض واللقاءات التعليمية</span><span class="en">Moments from education fairs and visits</span></p>
+      </div>
+      <div class="nb-desk">
+        <div class="nb-stage" id="nbStage" tabindex="0"><div class="nb-book" id="nbBook"></div></div>
+        <div class="nb-nav">
+          <button id="nbPrev" type="button" aria-label="السابق / Previous">&rsaquo;</button>
+          <div class="nb-count" id="nbCount" dir="ltr"></div>
+          <button id="nbNext" type="button" aria-label="التالي / Next">&lsaquo;</button>
+        </div>
+        <div class="nb-scroller" id="nbScroller"></div>
+        <p class="nb-hint"><span class="ar">التنقل بين الصور بالسحب</span><span class="en">Swipe to browse</span></p>
+      </div>
     </div>
   </div>
 </section>
@@ -820,5 +869,67 @@
   });
 </script>
 
+<script>
+(function(){
+var PHOTOS=[
+ {f:'album-01.jpg',ar:'في فعالية تعليمية مع Golden Eagle International',en:'At an education event with Golden Eagle International',alt:'مها مع ممثلة Golden Eagle International'},
+ {f:'album-02.jpg',ar:'في جناح New Hampton School ضمن معرض تعليمي',en:'At the New Hampton School table at an education fair',alt:'مها في جناح New Hampton School'},
+ {f:'album-03.jpg',ar:'في GEDU Global Education',en:'At GEDU Global Education',alt:'مها في GEDU'},
+ {f:'album-04.jpg',ar:'زيارة أخرى في GEDU Global Education',en:'Another visit at GEDU Global Education',alt:'مها في GEDU'},
+ {f:'album-05.jpg',ar:'في جناح Lead Institute of Higher Education',en:'At the Lead Institute of Higher Education stand',alt:'مها في جناح Lead Institute'},
+ {f:'album-06.jpg',ar:'في The Essential English Centre',en:'At The Essential English Centre',alt:'مها في The Essential English Centre'},
+ {f:'album-07.jpg',ar:'زيارة MC Academy لتعليم اللغة الإنجليزية',en:'Visiting MC Academy English Language School',alt:'مها أمام MC Academy'},
+ {f:'album-08.jpg',ar:'لقاء ودّي خلال إحدى الفعاليات',en:'A friendly moment during an event',alt:'مها مع زوّار أجانب'},
+ {f:'album-09.jpg',ar:'تبادل شهادة شراكة',en:'Exchanging a certificate of partnership',alt:'مها وتبادل شهادة شراكة'},
+ {f:'album-10.jpg',ar:'لحظة ودّية خلال إحدى الفعاليات',en:'A friendly moment during an event',alt:'مها مع صديقة'},
+ {f:'album-11.jpg',ar:'من إحدى الزيارات',en:'From one of the visits',alt:'مها مع زميلة'},
+ {f:'album-13.jpg',ar:'لحظة جماعية مرحة',en:'A fun group moment',alt:'مها مع مجموعة'},
+ {f:'album-14.jpg',ar:'احتفال صغير بين الزميلات',en:'A small celebration with colleagues',alt:'احتفال'}
+];
+function bi(a,e){return '<span class="ar">'+a+'</span><span class="en">'+e+'</span>';}
+var pages=[];
+pages.push('<div class="nb-page nb-cover"><h4>'+bi('دفتر اللقاءات','Notebook of Encounters')+'</h4><div class="nb-rule"></div><p>'+bi('مها الزهراني','Maha Alzahrani')+'</p><p class="nb-ghost">'+bi('الصفحة التالية ‹','Next page ›')+'</p></div>');
+PHOTOS.forEach(function(p,i){
+  pages.push('<div class="nb-page"><img src="'+p.f+'" alt="'+p.alt+'" loading="lazy"><div class="nb-cap">'+bi(p.ar,p.en)+'</div><div class="nb-no">'+(i+1)+' / '+PHOTOS.length+'</div></div>');
+});
+pages.push('<div class="nb-page nb-cover"><div class="nb-rule"></div><h4>'+bi('شكراً لكم','Thank you')+'</h4><p>'+bi('لكل من شاركني هذه المحطات','To everyone who shared these moments with me')+'</p></div>');
+var BLANK='<div class="nb-page"></div>';
+if(pages.length%2)pages.push(BLANK);
+var n=pages.length/2,cur=0,book=document.getElementById('nbBook'),leaves=[];
+for(var i=0;i<n;i++){
+  var l=document.createElement('div');l.className='nb-leaf';
+  l.innerHTML='<div class="nb-face front'+(i===0?' cover':'')+'">'+pages[2*i]+'</div><div class="nb-face back">'+pages[2*i+1]+'</div>';
+  l.addEventListener('click',function(){var k=leaves.indexOf(this);go(k<cur?k:k+1);});
+  book.appendChild(l);leaves.push(l);
+}
+/* الصفحة الأخيرة (الشكر) وجهها غامق */
+leaves[n-1].querySelector('.front').className+=' cover';
+function render(){
+  leaves.forEach(function(l,i){var f=i<cur;l.style.transform='rotateY('+(f?-180:0)+'deg)';l.style.zIndex=f?10+i:10+n-i;});
+  book.style.transform='translateX(calc(var(--pw)*'+(cur===0?-0.5:0)+'))';
+  document.getElementById('nbPrev').disabled=cur===0;
+  document.getElementById('nbNext').disabled=cur>=n-1;
+  document.getElementById('nbCount').textContent=cur===0?'':(cur+' / '+(n-1));
+}
+function go(k){cur=Math.max(0,Math.min(n-1,k));render();}
+document.getElementById('nbNext').onclick=function(){go(cur+1)};
+document.getElementById('nbPrev').onclick=function(){go(cur-1)};
+var st=document.getElementById('nbStage'),sx=null;
+st.addEventListener('keydown',function(e){
+  if(e.key==='ArrowLeft')go(cur+1);
+  if(e.key==='ArrowRight')go(cur-1);
+});
+st.addEventListener('pointerdown',function(e){sx=e.clientX});
+st.addEventListener('pointerup',function(e){if(sx===null)return;var d=e.clientX-sx;sx=null;if(Math.abs(d)>50){d<0?go(cur+1):go(cur-1);}});
+render();
+var sc=document.getElementById('nbScroller');
+pages.forEach(function(p,i){
+  if(p===BLANK)return;
+  var d=document.createElement('div');d.className='nb-sp';
+  d.innerHTML='<div class="nb-face'+((i===0||i===pages.length-1)?' cover':'')+'">'+p+'</div>';
+  sc.appendChild(d);
+});
+})();
+</script>
 </body>
 </html>
