@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>دفتر اللقاءات | مها الزهراني</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* غيّري الألوان هنا لتطابق موقعك */
+  --bg:#142833; --paper:#fbf8f2; --paper2:#f6f1e6; --ink:#1c2b30; --muted:#5b6b70; --accent:#d9b26b;
+  --pw:min(42vw,400px); --ph:calc(var(--pw)*1.28);
+}
+*{box-sizing:border-box;margin:0}
+html,body{height:100%}
+body{background:radial-gradient(1200px 700px at 50% 30%,#2c5468,#1c3644 60%,#142833);color:#e9e4d8;font-family:'Tajawal',system-ui,sans-serif;display:flex;flex-direction:column;align-items:center;overflow-x:hidden}
+.top{width:100%;max-width:1000px;display:flex;justify-content:space-between;align-items:center;padding:16px}
+.top a,.top button{color:#e9e4d8;background:none;border:1px solid #ffffff33;border-radius:999px;padding:8px 16px;font:inherit;font-size:14px;text-decoration:none;cursor:pointer}
+.top a:hover,.top button:hover{border-color:var(--accent);color:var(--accent)}
+h1{font-size:clamp(20px,3vw,28px);font-weight:600;text-align:center;margin:4px 16px 0}
+.sub{color:#a9b0a8;font-size:14px;text-align:center;margin:6px 16px 0}
+.ar,.en{display:none}
+html[lang=ar] .ar{display:inline}html[lang=en] .en{display:inline}
+.page{direction:rtl}html[lang=en] .page{direction:ltr}
+
+/* ===== الكتاب (شاشات كبيرة) ===== */
+.stage{flex:1;display:flex;align-items:center;justify-content:center;width:100%;padding:24px 8px;perspective:2200px;touch-action:pan-y}
+.book{position:relative;width:calc(var(--pw)*2);height:var(--ph);direction:ltr;transform-style:preserve-3d;transition:transform .8s cubic-bezier(.4,.1,.2,1)}
+.leaf{position:absolute;top:0;left:50%;width:var(--pw);height:var(--ph);transform-origin:left center;transform-style:preserve-3d;transition:transform .85s cubic-bezier(.45,.05,.25,1),z-index 0s .42s}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:var(--paper);overflow:hidden;box-shadow:0 8px 22px #0006}
+.face.front{border-radius:3px 10px 10px 3px;background:linear-gradient(90deg,#d9cfba 0,var(--paper) 7%)}
+.face.back{transform:rotateY(180deg);border-radius:10px 3px 3px 10px;background:linear-gradient(270deg,#d9cfba 0,var(--paper) 7%)}
+.page{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;height:100%;padding:7% 8%;color:var(--ink);text-align:center}
+.page img{max-width:100%;max-height:72%;object-fit:contain;border:6px solid #fff;box-shadow:0 6px 16px #0003;border-radius:2px;background:#ddd}
+.page .cap{font-size:clamp(12px,1.4vw,15px);line-height:1.7;color:#3a464a;min-height:3.4em}
+.page .no{font-size:12px;color:var(--muted);letter-spacing:.1em}
+.cover{background:linear-gradient(135deg,#2c5468,#1c3644);color:#e9d3a3;border:1px solid #c9a45c55}
+.cover .page{color:#e9d3a3}
+.cover h2{font-size:clamp(22px,3vw,34px);font-weight:600;line-height:1.5}
+.cover .rule{width:56px;height:2px;background:var(--accent);margin:4px 0}
+.cover p{font-size:clamp(12px,1.4vw,15px);color:#cfd9dc}
+.face.cover{background:linear-gradient(135deg,#2c5468,#1c3644)}
+.ghost{opacity:.5;font-size:13px}
+
+.nav{display:flex;align-items:center;gap:16px;padding:8px 0 26px}
+.nav button{width:46px;height:46px;border-radius:50%;border:1px solid #ffffff44;background:#ffffff0d;color:#e9e4d8;font-size:20px;cursor:pointer}
+.nav button:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
+.nav button:disabled{opacity:.3;cursor:default}
+.count{min-width:90px;text-align:center;font-size:14px;color:#a9b0a8}
+
+/* ===== الجوال: شريط صور بالسحب ===== */
+.scroller{display:none}
+@media (max-width:760px){
+  .stage,.nav{display:none}
+  .scroller{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;width:100%;gap:0;flex:1;-webkit-overflow-scrolling:touch;padding:16px 0 28px}
+  .scroller .sp{flex:0 0 86%;scroll-snap-align:center;margin:0 7%;height:min(78vh,620px)}
+  .scroller .face{position:relative;height:100%;border-radius:10px}
+  .scroller .page img{max-height:68%}
+  .hint{display:block!important}
+}
+.hint{display:none;text-align:center;color:#a9b0a8;font-size:13px;padding-bottom:18px}
+@media (prefers-reduced-motion:reduce){.book,.leaf{transition:none}}
+</style>
+</head>
+<body>
+<div class="top">
+  <a href="index.html#gallery"><span class="ar">→ العودة للموقع</span><span class="en">← Back to site</span></a>
+  <button id="lang" type="button">EN / عربي</button>
+</div>
+<h1><span class="ar">دفتر اللقاءات</span><span class="en">Notebook of Encounters</span></h1>
+<p class="sub"><span class="ar">لحظات من المعارض واللقاءات التعليمية</span><span class="en">Moments from education fairs and visits</span></p>
+
+<div class="stage" id="stage"><div class="book" id="book"></div></div>
+<div class="nav" id="nav">
+  <button id="prev" aria-label="السابق / Previous">›</button>
+  <div class="count" id="count" dir="ltr"></div>
+  <button id="next" aria-label="التالي / Next">‹</button>
+</div>
+<div class="scroller" id="scroller"></div>
+<p class="hint"><span class="ar">اسحب للتنقل بين الصور</span><span class="en">Swipe to browse</span></p>
+
+<script>
+/* ===== عدّلي الكابشنز هنا (عربي / إنجليزي) =====
+   الصور: album-01.jpg ... album-09.jpg بنفس مكان هذا الملف */
+var PHOTOS=[
+ {f:'album-01.jpg',ar:'في فعالية تعليمية مع Golden Eagle International',en:'At an education event with Golden Eagle International',alt:'مها مع ممثلة Golden Eagle International'},
+ {f:'album-02.jpg',ar:'في جناح New Hampton School ضمن معرض تعليمي',en:'At the New Hampton School table at an education fair',alt:'مها في جناح New Hampton School'},
+ {f:'album-03.jpg',ar:'في GEDU Global Education',en:'At GEDU Global Education',alt:'مها في GEDU'},
+ {f:'album-04.jpg',ar:'زيارة أخرى في GEDU Global Education',en:'Another visit at GEDU Global Education',alt:'مها في GEDU'},
+ {f:'album-05.jpg',ar:'في جناح Lead Institute of Higher Education',en:'At the Lead Institute of Higher Education stand',alt:'مها في جناح Lead Institute'},
+ {f:'album-06.jpg',ar:'في The Essential English Centre',en:'At The Essential English Centre',alt:'مها في The Essential English Centre'},
+ {f:'album-07.jpg',ar:'زيارة MC Academy لتعليم اللغة الإنجليزية',en:'Visiting MC Academy English Language School',alt:'مها أمام MC Academy'},
+ {f:'album-08.jpg',ar:'لقاء ودّي خلال إحدى الفعاليات',en:'A friendly moment during an event',alt:'مها مع زوّار أجانب'},
+ {f:'album-09.jpg',ar:'تبادل شهادة شراكة',en:'Exchanging a certificate of partnership',alt:'مها وتبادل شهادة شراكة'},
+ {f:'album-10.jpg',ar:'لحظة ودّية خلال إحدى الفعاليات',en:'A friendly moment during an event',alt:'مها مع صديقة'},
+ {f:'album-11.jpg',ar:'من إحدى الزيارات',en:'From one of the visits',alt:'مها مع زميلة'},
+ {f:'album-13.jpg',ar:'لحظة جماعية مرحة',en:'A fun group moment',alt:'مها مع مجموعة'},
+ {f:'album-14.jpg',ar:'احتفال صغير بين الزميلات',en:'A small celebration with colleagues',alt:'احتفال'}
+];
+function bi(a,e){return '<span class="ar">'+a+'</span><span class="en">'+e+'</span>';}
+var pages=[];
+pages.push('<div class="page"><div class="rule" style="display:none"></div><h2>'+bi('دفتر اللقاءات','Notebook of Encounters')+'</h2><div class="rule"></div><p>'+bi('مها الزهراني','Maha Alzahrani')+'</p><p class="ghost">'+bi('اقلب الصفحة ‹','Turn the page ›')+'</p></div>');
+PHOTOS.forEach(function(p,i){
+  pages.push('<div class="page"><img src="'+p.f+'" alt="'+p.alt+'" loading="lazy"><div class="cap">'+bi(p.ar,p.en)+'</div><div class="no">'+(i+1)+' / '+PHOTOS.length+'</div></div>');
+});
+pages.push('<div class="page"><div class="rule"></div><h2>'+bi('شكراً لكم','Thank you')+'</h2><p>'+bi('لكل من شاركني هذه المحطات','To everyone who shared these moments with me')+'</p></div>');
+if(pages.length%2)pages.push('<div class="page"></div>');
+var n=pages.length/2, cur=0;
+var book=document.getElementById('book'), leaves=[];
+for(var i=0;i<n;i++){
+  var l=document.createElement('div');l.className='leaf';
+  var fc=(i===0)?' cover':'', bc=(i===n-1)?' cover':'';
+  l.innerHTML='<div class="face front'+fc+'">'+pages[2*i]+'</div><div class="face back'+bc+'">'+pages[2*i+1]+'</div>';
+  l.addEventListener('click',function(e){var k=leaves.indexOf(this);go(k<cur?k:k+1);});
+  book.appendChild(l);leaves.push(l);
+}
+function render(){
+  leaves.forEach(function(l,i){
+    var f=i<cur;
+    l.style.transform='rotateY('+(f?-180:0)+'deg)';
+    l.style.zIndex=f?10+i:10+n-i;
+  });
+  var s=cur===0?-0.5:0;
+  book.style.transform='translateX(calc(var(--pw)*'+s+'))';
+  document.getElementById('prev').disabled=cur===0;
+  document.getElementById('next').disabled=cur>=n-1;
+  var shown=Math.max(0,Math.min(PHOTOS.length,cur*2-1)); /* تقريب للصفحة الحالية */
+  document.getElementById('count').textContent=cur===0?'':(cur+' / '+(n-1));
+}
+function go(k){cur=Math.max(0,Math.min(n-1,k));render();}
+document.getElementById('next').onclick=function(){go(cur+1)};
+document.getElementById('prev').onclick=function(){go(cur-1)};
+document.addEventListener('keydown',function(e){
+  var rtl=document.documentElement.dir==='rtl';
+  if(e.key==='ArrowLeft')go(cur+(rtl?1:-1)*1);
+  if(e.key==='ArrowRight')go(cur-(rtl?1:-1)*1);
+});
+var sx=null,st=document.getElementById('stage');
+st.addEventListener('pointerdown',function(e){sx=e.clientX});
+st.addEventListener('pointerup',function(e){
+  if(sx===null)return;var d=e.clientX-sx;sx=null;
+  if(Math.abs(d)>50){var rtl=document.documentElement.dir==='rtl';
+    if(d<0)go(cur+1);else go(cur-1);}
+});
+render();
+/* نسخة الجوال */
+var sc=document.getElementById('scroller');
+pages.forEach(function(p,i){
+  if(p==='<div class="page"></div>')return;
+  var d=document.createElement('div');d.className='sp';
+  d.innerHTML='<div class="face'+((i===0||i===pages.length-1)?' cover':'')+'" style="backface-visibility:visible">'+p+'</div>';
+  sc.appendChild(d);
+});
+/* اللغة */
+var L=document.documentElement;
+function setLang(x){L.lang=x;L.dir=x==='ar'?'rtl':'ltr';try{localStorage.setItem('album-lang',x)}catch(e){}}
+try{var q=new URLSearchParams(location.search).get('lang')||localStorage.getItem('album-lang');if(q==='en'||q==='ar')setLang(q);}catch(e){}
+document.getElementById('lang').onclick=function(){setLang(L.lang==='ar'?'en':'ar')};
+</script>
+</body>
+</html>
