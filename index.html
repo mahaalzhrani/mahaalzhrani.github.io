@@ -414,6 +414,11 @@
   .gal-item:nth-child(7n+1)::before{left:18%;}
   .gal-item:nth-child(7n+2)::before{left:58%;}
   .gal-item{transform:translate(var(--x,0),var(--y,0)) rotate(var(--r,0deg));}
+  /* شبكة بدل الأعمدة: تمنع قص الدبابيس والصور عند حافة العمود */
+  .gal-grid{display:grid; column-count:auto; grid-template-columns:repeat(4,1fr); gap:42px 30px; align-items:center;}
+  @media (max-width:900px){ .gal-grid{grid-template-columns:repeat(3,1fr);} }
+  @media (max-width:640px){ .gal-grid{grid-template-columns:repeat(2,1fr); gap:30px 16px;} }
+  .gal-item{margin-bottom:0 !important; break-inside:auto;}
   .gal-item:hover{transform:rotate(0deg) scale(1.05);}
   @media (max-width:640px){ .gal-grid{padding:36px 14px 10px; border-width:9px; column-gap:16px;} .gal-item{padding:7px 7px 30px;} .gal-cap{font-size:12px;} html[lang=en] .gal-cap{font-size:14px;} }
 
